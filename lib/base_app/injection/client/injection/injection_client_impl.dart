@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:news_app/features_core/injection_core/injection_core.dart';
+import 'package:news_app/base_app/injection/injection.dart';
 
 final _getIt = GetIt.instance;
 

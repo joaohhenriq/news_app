@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:news_app/features_core/injection_core/client/client.dart';
+import 'package:news_app/base_app/injection/injection.dart';
 import 'package:news_app/features_core/network_core/network_core.dart';
 
 class HttpDI implements RegisterInjectionClient {

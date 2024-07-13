@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/base_app/router/router.dart';
 import 'package:news_app/features/page.dart';
-import 'package:news_app/features_core/injection_core/client/client.dart';
-import 'package:news_app/features_core/router_core/client/client.dart';
+import 'package:news_app/base_app/injection/injection.dart';
 
 class SplashRouter implements RouterClient {
   @override

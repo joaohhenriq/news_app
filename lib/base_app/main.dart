@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/base_app/bootstrap.dart';
 import 'package:news_app/features/route.dart';
-import 'package:news_app/features_core/router_core/router_core.dart';
+import 'package:news_app/base_app/router/router.dart';
 
 void main() {
   Bootstrap.start();
