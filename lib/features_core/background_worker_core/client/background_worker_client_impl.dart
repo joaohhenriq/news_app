@@ -7,10 +7,14 @@ class BackgroundWorkerClientImpl implements BackgroundWorkerClient {
 
   @override
   void startWorker({
-    required Duration duration,
+    required int secondsInterval,
     required void Function() onBackgroundTask,
   }) {
-    _timer ??= Timer.periodic(duration, (_) {
+    final backgroundIntervalSeconds =
+        secondsInterval >= 300 ? secondsInterval : 300;
+
+    _timer ??=
+        Timer.periodic(Duration(seconds: backgroundIntervalSeconds), (_) {
       onBackgroundTask();
     });
   }

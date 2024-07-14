@@ -1,6 +1,6 @@
 abstract class BackgroundWorkerClient {
   void startWorker({
-    required Duration duration,
+    required int secondsInterval,
     required void Function() onBackgroundTask,
   });
 
