@@ -3,8 +3,8 @@ import 'package:news_app/base_app/bootstrap.dart';
 import 'package:news_app/features/route.dart';
 import 'package:news_app/base_app/router/router.dart';
 
-void main() {
-  Bootstrap.start();
+void main() async {
+  await Bootstrap.start();
   runApp(const MyApp());
 }
 
