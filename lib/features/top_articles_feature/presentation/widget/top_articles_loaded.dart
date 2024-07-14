@@ -7,9 +7,11 @@ class TopArticlesLoaded extends StatelessWidget {
   const TopArticlesLoaded({
     super.key,
     required this.valueStream,
+    required this.onTap,
   });
 
   final ValueStream valueStream;
+  final Future<void> Function(ArticleEntity articleEntity) onTap;
 
   @override
   Widget build(BuildContext context) => StreamBuilder(
@@ -58,7 +60,7 @@ class TopArticlesLoaded extends StatelessWidget {
                                 right: 12.0,
                               ),
                               child: CardInfo(
-                                onTap: () {},
+                                onTap: () => onTap(article),
                                 author: article.author,
                                 titleNews: article.title,
                                 sourceName: article.sourceName,

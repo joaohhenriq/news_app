@@ -65,6 +65,7 @@ class _TopArticlesPageState extends State<TopArticlesPage> {
               case TopArticlesStateEnum.loaded:
                 return TopArticlesLoaded(
                   valueStream: widget.topArticlesState.stream$,
+                  onTap: _navigateToArticleDetails,
                 );
             }
           },
@@ -95,5 +96,13 @@ class _TopArticlesPageState extends State<TopArticlesPage> {
           break;
       }
     }
+  }
+
+  Future<void> _navigateToArticleDetails(ArticleEntity articleEntity) async {
+    await Navigator.pushNamed(
+      context,
+      TopArticleRoutes.articlesDetails,
+      arguments: articleEntity,
+    );
   }
 }

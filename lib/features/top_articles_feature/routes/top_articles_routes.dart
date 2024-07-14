@@ -18,9 +18,16 @@ class TopArticleRouter implements RouterClient {
         ),
       )
     ),
+    TopArticleRoutes.articlesDetails: MaterialPageRoute(
+      settings: settings,
+      builder: (_) => ArticleDetailsPage(
+        articleEntity: settings.arguments as ArticleEntity,
+      ),
+    ),
   };
 }
 
 class TopArticleRoutes {
   static const topArticles = 'top_articles';
+  static const articlesDetails = 'articles_details';
 }
