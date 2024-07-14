@@ -27,11 +27,15 @@ class Bootstrap {
 
   static void _startBackgroundWorker() {
     final worker = Injector.I.get<BackgroundWorkerClient>();
+    final backgroundIntervalSeconds = Config.backgroundFetchInterval >= 300
+        ? Config.backgroundFetchInterval
+        : 300;
     worker.startWorker(
-      duration: Duration(seconds: Config.backgroundFetchInterval),
+      duration: Duration(seconds: backgroundIntervalSeconds),
       onBackgroundTask: () {
         final articleStreamService = Injector.I.get<ArticleStreamService>();
-        articleStreamService.updateArticles([Random().nextInt(1000).toString()]);
+        articleStreamService
+            .updateArticles([Random().nextInt(1000).toString()]);
       },
     );
   }
