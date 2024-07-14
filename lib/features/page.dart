@@ -18,10 +18,10 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      var rng = Random();
-      Timer.periodic(const Duration(seconds: 2), (timer) {
-        widget.articleStreamService.updateArticles([rng.nextInt(1000).toString()]);
-      });
+      // var rng = Random();
+      // Timer.periodic(const Duration(seconds: 2), (timer) {
+      //   widget.articleStreamService.updateArticles([rng.nextInt(1000).toString()]);
+      // });
     });
   }
   @override
