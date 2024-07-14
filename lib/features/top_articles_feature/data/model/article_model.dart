@@ -13,6 +13,18 @@ class ArticleModel extends ArticleEntity {
     super.content = '',
   });
 
+  factory ArticleModel.fromEntity(ArticleEntity entity) => ArticleModel(
+        sourceId: entity.sourceId,
+        sourceName: entity.sourceName,
+        author: entity.author,
+        title: entity.title,
+        description: entity.description,
+        url: entity.url,
+        urlToImage: entity.urlToImage,
+        publishedAt: entity.publishedAt,
+        content: entity.content,
+      );
+
   factory ArticleModel.fromMap(Map<String, dynamic> map) => ArticleModel(
         sourceId: map['source'] != null && map['source']['id'] != null
             ? map['source']['id']
@@ -28,4 +40,18 @@ class ArticleModel extends ArticleEntity {
         publishedAt: map['publishedAt'] ?? '',
         content: map['content'] ?? '',
       );
+
+  Map<String, dynamic> toMap() => {
+        'source': {
+          'id': sourceId,
+          'name': sourceName,
+        },
+        'author': author,
+        'title': title,
+        'description': description,
+        'url': url,
+        'urlToImage': urlToImage,
+        'publishedAt': publishedAt,
+        'content': content,
+      };
 }

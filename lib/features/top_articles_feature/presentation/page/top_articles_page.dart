@@ -8,11 +8,13 @@ class TopArticlesPage extends StatefulWidget {
     required this.startBackgroundFetch,
     required this.getHeadlinesGroupedBySource,
     required this.topArticlesState,
+    required this.getFavoriteArticles,
   });
 
   final StartBackgroundFetch startBackgroundFetch;
   final GetHeadlinesGroupedBySource getHeadlinesGroupedBySource;
   final TopArticlesStream topArticlesState;
+  final GetFavoriteArticles getFavoriteArticles;
 
   @override
   State<TopArticlesPage> createState() => _TopArticlesPageState();
@@ -79,6 +81,7 @@ class _TopArticlesPageState extends State<TopArticlesPage> {
     required void Function(TopArticlesStateEnum) updatePageState,
   }) async {
     final result = await widget.getHeadlinesGroupedBySource();
+    await widget.getFavoriteArticles();
 
     if (result.isRight) {
       widget.topArticlesState.updateArticles(result.right);

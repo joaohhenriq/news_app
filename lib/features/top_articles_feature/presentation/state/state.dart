@@ -1,2 +1,2 @@
-export 'top_articles_state.dart';
-export 'top_articles_stream.dart';
+export 'favorite_articles/favorite_articles.dart';
+export 'top_articles/top_articles.dart';

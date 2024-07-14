@@ -8,9 +8,15 @@ class ArticleDetailsPage extends StatefulWidget {
   const ArticleDetailsPage({
     super.key,
     required this.articleEntity,
+    required this.favoriteArticlesStream,
+    required this.addFavoriteArticles,
+    required this.deleteFromFavoriteArticles,
   });
 
   final ArticleEntity articleEntity;
+  final FavoriteArticlesStream favoriteArticlesStream;
+  final AddFavoriteArticles addFavoriteArticles;
+  final DeleteFromFavoriteArticles deleteFromFavoriteArticles;
 
   @override
   State<ArticleDetailsPage> createState() => _ArticleDetailsPageState();
@@ -22,17 +28,26 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
         appBar: AppBar(
           title: const Text('Article'),
           actions: [
-            Consumer<SeriesDetailState>(
-              builder: (context, provider, child) {
+            StreamBuilder(
+              stream: widget.favoriteArticlesStream.stream$,
+              builder: (context, snapshot) {
+                bool isFavorite = false;
+
+                List<ArticleEntity> listArticles = snapshot.data ?? [];
+
+                if (listArticles.isNotEmpty) {
+                  isFavorite = listArticles
+                      .any((element) => element == widget.articleEntity);
+                }
+
                 return IconButton(
                   icon: Icon(
-                    provider.isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: provider.isFavorite ? Colors.red : Colors.grey,
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : Colors.grey,
                   ),
                   onPressed: () => _onTapFavoriteIcon(
-                    tvShowEntity: widget.tvShowEntity,
-                    isFavorite: provider.isFavorite,
-                    updateIsFavorite: provider.updateIsFavorite,
+                    articleEntity: widget.articleEntity,
+                    isFavorite: isFavorite,
                   ),
                 );
               },
@@ -114,6 +129,17 @@ class _ArticleDetailsPageState extends State<ArticleDetailsPage> {
   void _onTapOpenUrl(String url) {
     if (url.isNotEmpty) {
       launchUrl(Uri.parse(url));
+    }
+  }
+
+  Future<void> _onTapFavoriteIcon({
+    required ArticleEntity articleEntity,
+    required bool isFavorite,
+  }) async {
+    if (isFavorite) {
+      await widget.deleteFromFavoriteArticles(articleEntity);
+    } else {
+      await widget.addFavoriteArticles(articleEntity);
     }
   }
 }

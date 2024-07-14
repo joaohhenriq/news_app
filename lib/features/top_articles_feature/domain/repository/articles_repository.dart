@@ -4,4 +4,14 @@ import 'package:news_app/features_util/failure.dart';
 
 abstract class ArticlesRepository {
   Future<Either<Failure, List<ArticleEntity>>> getTopHeadlines();
+
+  Future<Either<Failure, List<ArticleEntity>>> getFavoriteArticles();
+
+  Future<Either<Failure, List<ArticleEntity>>> addFavoriteArticles(
+    ArticleEntity articleEntity,
+  );
+
+  Future<Either<Failure, List<ArticleEntity>>> deleteFromFavoriteArticles(
+    ArticleEntity articleEntity,
+  );
 }

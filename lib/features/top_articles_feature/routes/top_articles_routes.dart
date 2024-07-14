@@ -15,6 +15,7 @@ class TopArticleRouter implements RouterClient {
           startBackgroundFetch: Injector.I.get(),
           topArticlesState: Injector.I.get(),
           getHeadlinesGroupedBySource: Injector.I.get(),
+          getFavoriteArticles: Injector.I.get(),
         ),
       )
     ),
@@ -22,6 +23,9 @@ class TopArticleRouter implements RouterClient {
       settings: settings,
       builder: (_) => ArticleDetailsPage(
         articleEntity: settings.arguments as ArticleEntity,
+        favoriteArticlesStream: Injector.I.get(),
+        addFavoriteArticles: Injector.I.get(),
+        deleteFromFavoriteArticles: Injector.I.get(),
       ),
     ),
   };
