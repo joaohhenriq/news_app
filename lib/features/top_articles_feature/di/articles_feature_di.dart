@@ -17,5 +17,13 @@ class ArticlesFeatureDI implements RegisterInjectionClient {
         () => GetTopHeadlinesImpl(injector.get()));
     injector.registerFactory<GetHeadlinesGroupedBySource>(
         () => GetHeadlinesGroupedBySourceImpl(injector.get()));
+    injector
+        .registerFactory<StartBackgroundFetch>(() => StartBackgroundFetchImpl(
+              backgroundWorkerClient: injector.get(),
+              getHeadlinesGroupedBySource: injector.get(),
+            ));
+
+    // state management
+    injector.registerSingleton<TopArticlesStream>(TopArticlesStream());
   }
 }

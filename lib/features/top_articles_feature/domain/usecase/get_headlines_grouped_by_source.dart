@@ -40,11 +40,14 @@ class GetHeadlinesGroupedBySourceImpl implements GetHeadlinesGroupedBySource {
   List<SourceArticlesEntity> _convertSourceMapToEntityList(
     Map<String, List<ArticleEntity>> map,
   ) {
-    return map.entries.map((entry) {
+    final list = map.entries.map((entry) {
       return SourceArticlesEntity(
         id: entry.key,
+        name: entry.key.isEmpty ? 'Others' : entry.value.first.sourceName,
         articles: entry.value,
       );
     }).toList();
+
+    return list.reversed.toList();
   }
 }

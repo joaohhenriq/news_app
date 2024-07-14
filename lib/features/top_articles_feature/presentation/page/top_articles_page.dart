@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/features/top_articles_feature/top_articles_feature.dart';
+import 'package:provider/provider.dart';
 
 class TopArticlesPage extends StatefulWidget {
-  const TopArticlesPage({super.key});
+  const TopArticlesPage({
+    super.key,
+    required this.startBackgroundFetch,
+    required this.getHeadlinesGroupedBySource,
+    required this.topArticlesState,
+  });
+
+  final StartBackgroundFetch startBackgroundFetch;
+  final GetHeadlinesGroupedBySource getHeadlinesGroupedBySource;
+  final TopArticlesStream topArticlesState;
 
   @override
   State<TopArticlesPage> createState() => _TopArticlesPageState();
@@ -9,12 +20,80 @@ class TopArticlesPage extends StatefulWidget {
 
 class _TopArticlesPageState extends State<TopArticlesPage> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _startBackgroundFetch();
+
+      final provider = context.read<TopArticlesState>();
+      await _fetchArticles(
+        updatePageState: provider.updatePageState,
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Top Articles'),
-    ),
-    body: const Center(
-      child: Text('Top Articles Page'),
-    ),
-  );
+        appBar: AppBar(
+          title: const Text('Top Articles'),
+        ),
+        body: Consumer<TopArticlesState>(
+          builder: (context, provider, child) {
+            switch (provider.pageState) {
+              case TopArticlesStateEnum.loading:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              case TopArticlesStateEnum.error:
+                return Center(
+                  child: TryAgainButton(
+                    text: 'Oh, looks like something went wrong!',
+                    onTap: () => _fetchArticles(
+                      updatePageState: provider.updatePageState,
+                    ),
+                  ),
+                );
+              case TopArticlesStateEnum.empty:
+                return Center(
+                  child: TryAgainButton(
+                    text: 'No data available',
+                    onTap: () => _fetchArticles(
+                      updatePageState: provider.updatePageState,
+                    ),
+                  ),
+                );
+              case TopArticlesStateEnum.loaded:
+                return TopArticlesLoaded(
+                  valueStream: widget.topArticlesState.stream$,
+                );
+            }
+          },
+        ),
+      );
+
+  void _startBackgroundFetch() =>
+      widget.startBackgroundFetch(widget.topArticlesState.updateArticles);
+
+  Future<void> _fetchArticles({
+    required void Function(TopArticlesStateEnum) updatePageState,
+  }) async {
+    final result = await widget.getHeadlinesGroupedBySource();
+
+    if (result.isRight) {
+      widget.topArticlesState.updateArticles(result.right);
+      updatePageState(TopArticlesStateEnum.loaded);
+    } else {
+      switch (result.left) {
+        case GetTopHeadlinesEmptyListFailure():
+          updatePageState(TopArticlesStateEnum.empty);
+          break;
+        case GetTopHeadlinesCatchFailure():
+          updatePageState(TopArticlesStateEnum.error);
+          break;
+        default:
+          updatePageState(TopArticlesStateEnum.error);
+          break;
+      }
+    }
+  }
 }

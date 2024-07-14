@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/base_app/bootstrap.dart';
-import 'package:news_app/features/route.dart';
 import 'package:news_app/base_app/router/router.dart';
+import 'package:news_app/features/top_articles_feature/top_articles_feature.dart';
 
 void main() async {
   await Bootstrap.start();
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'News App',
       onGenerateRoute: (settings) => routerFeatures(settings)[settings.name],
-      initialRoute: SplashRoutes.splash,
+      initialRoute: TopArticleRoutes.topArticles,
     );
   }
 }
