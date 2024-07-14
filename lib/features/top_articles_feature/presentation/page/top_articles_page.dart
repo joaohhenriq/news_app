@@ -38,6 +38,12 @@ class _TopArticlesPageState extends State<TopArticlesPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Top Articles'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.favorite),
+              onPressed: _navigateToFavorites,
+            ),
+          ],
         ),
         body: Consumer<TopArticlesState>(
           builder: (context, provider, child) {
@@ -99,6 +105,13 @@ class _TopArticlesPageState extends State<TopArticlesPage> {
           break;
       }
     }
+  }
+
+  Future<void> _navigateToFavorites() async {
+    await Navigator.pushNamed(
+      context,
+      TopArticleRoutes.favoriteArticles,
+    );
   }
 
   Future<void> _navigateToArticleDetails(ArticleEntity articleEntity) async {

@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'News App',
+      debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) => routerFeatures(settings)[settings.name],
       initialRoute: TopArticleRoutes.topArticles,
     );

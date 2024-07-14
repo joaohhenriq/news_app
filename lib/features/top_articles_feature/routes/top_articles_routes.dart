@@ -28,10 +28,17 @@ class TopArticleRouter implements RouterClient {
         deleteFromFavoriteArticles: Injector.I.get(),
       ),
     ),
+    TopArticleRoutes.favoriteArticles: MaterialPageRoute(
+      settings: settings,
+      builder: (_) => FavoriteArticlesPage(
+        favoriteArticlesStream: Injector.I.get(),
+      ),
+    ),
   };
 }
 
 class TopArticleRoutes {
   static const topArticles = 'top_articles';
   static const articlesDetails = 'articles_details';
+  static const favoriteArticles = 'favorite_articles';
 }
